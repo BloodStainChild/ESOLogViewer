@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "dgSpecHash": "HPJOzonST3I=",
+  "success": true,
+  "projectFilePath": "D:\\EsoLogViewer\\EsoLogViewerLocal_NET8_v44\\src\\EsoLogViewer.Core\\EsoLogViewer.Core.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\HNGPC5.0\\.nuget\\packages\\bcnencoder.net\\2.2.1\\bcnencoder.net.2.2.1.nupkg.sha512",
+    "C:\\Users\\HNGPC5.0\\.nuget\\packages\\bcnencoder.net.imagesharp\\1.1.2\\bcnencoder.net.imagesharp.1.1.2.nupkg.sha512",
+    "C:\\Users\\HNGPC5.0\\.nuget\\packages\\communitytoolkit.highperformance\\8.4.0\\communitytoolkit.highperformance.8.4.0.nupkg.sha512",
+    "C:\\Users\\HNGPC5.0\\.nuget\\packages\\microsoft.data.sqlite\\8.0.0\\microsoft.data.sqlite.8.0.0.nupkg.sha512",
+    "C:\\Users\\HNGPC5.0\\.nuget\\packages\\microsoft.data.sqlite.core\\8.0.0\\microsoft.data.sqlite.core.8.0.0.nupkg.sha512",
+    "C:\\Users\\HNGPC5.0\\.nuget\\packages\\sixlabors.imagesharp\\3.1.12\\sixlabors.imagesharp.3.1.12.nupkg.sha512",
+    "C:\\Users\\HNGPC5.0\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.6\\sqlitepclraw.bundle_e_sqlite3.2.1.6.nupkg.sha512",
+    "C:\\Users\\HNGPC5.0\\.nuget\\packages\\sqlitepclraw.core\\2.1.6\\sqlitepclraw.core.2.1.6.nupkg.sha512",
+    "C:\\Users\\HNGPC5.0\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.6\\sqlitepclraw.lib.e_sqlite3.2.1.6.nupkg.sha512",
+    "C:\\Users\\HNGPC5.0\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.6\\sqlitepclraw.provider.e_sqlite3.2.1.6.nupkg.sha512",
+    "C:\\Users\\HNGPC5.0\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
+  ],
+  "logs": []
+}
