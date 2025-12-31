@@ -4,6 +4,33 @@ namespace EsoLogViewer.Core.Storage;
 
 internal static class CombatAggHelper
 {
+    public static IReadOnlyList<int> GetAbilityIds(
+        FightDetail? detail,
+        int? sourceUnitId,
+        int? targetUnitId,
+        bool heals)
+    {
+        if (detail is null)
+            return Array.Empty<int>();
+
+        var aggs = heals ? detail.HealAggs : detail.DamageAggs;
+        if (aggs is null || aggs.Count == 0)
+            return Array.Empty<int>();
+
+        var ids = new HashSet<int>();
+        foreach (var agg in aggs)
+        {
+            if (sourceUnitId is not null && agg.SourceUnitId != sourceUnitId.Value)
+                continue;
+            if (targetUnitId is not null && agg.TargetUnitId != targetUnitId.Value)
+                continue;
+
+            ids.Add(agg.AbilityId);
+        }
+
+        return ids.OrderBy(id => id).ToList();
+    }
+
     public static IReadOnlyList<FightSeriesPoint> ProjectSeries(
         FightDetail? detail,
         IReadOnlyList<FightSeriesPoint>? baseSeries,

@@ -312,6 +312,28 @@ public sealed class MultiLogStore : IStore
         }
     }
 
+    public IReadOnlyCollection<int> GetCombatAbilityIds(Guid fightId, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false)
+    {
+        string? path;
+        lock (_gate)
+        {
+            _fightToDb.TryGetValue(fightId, out path);
+        }
+
+        if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+            return Array.Empty<int>();
+
+        try
+        {
+            var store = new SqliteLogStore(path, ensureSchema: false);
+            return store.GetCombatAbilityIds(fightId, sourceUnitId, targetUnitId, heals);
+        }
+        catch
+        {
+            return Array.Empty<int>();
+        }
+    }
+
     public IReadOnlyList<CombatAggSummary> GetCombatAggs(Guid fightId, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false, IReadOnlyCollection<int>? abilityIds = null)
     {
         var detail = GetFightDetail(fightId);

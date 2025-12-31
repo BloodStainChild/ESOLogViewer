@@ -16,6 +16,11 @@ public interface IStore
     FightSummary? GetFight(Guid fightId);
     FightDetail? GetFightDetail(Guid fightId);
     IReadOnlyList<FightSeriesPoint> GetSeries(Guid fightId);
+    IReadOnlyCollection<int> GetCombatAbilityIds(
+        Guid fightId,
+        int? sourceUnitId = null,
+        int? targetUnitId = null,
+        bool heals = false);
     IReadOnlyList<FightSeriesPoint> GetCombatSeries(
         Guid fightId,
         int? sourceUnitId = null,
@@ -110,6 +115,17 @@ public sealed class InMemoryStore : IStore
         {
             return _fightDetails.TryGetValue(fightId, out var d) ? d : null;
         }
+    }
+
+    public IReadOnlyCollection<int> GetCombatAbilityIds(Guid fightId, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false)
+    {
+        FightDetail? detail;
+        lock (_gate)
+        {
+            _fightDetails.TryGetValue(fightId, out detail);
+        }
+
+        return CombatAggHelper.GetAbilityIds(detail, sourceUnitId, targetUnitId, heals);
     }
 
     public IReadOnlyList<CombatAggSummary> GetCombatAggs(Guid fightId, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false, IReadOnlyCollection<int>? abilityIds = null)

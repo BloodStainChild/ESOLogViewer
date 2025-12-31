@@ -252,6 +252,12 @@ ORDER BY UnixStartTimeMs DESC;";
         return JsonSerializer.Deserialize<FightSummary>(json, JsonOpts);
     }
 
+    public IReadOnlyCollection<int> GetCombatAbilityIds(Guid fightId, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false)
+    {
+        var detail = GetFightDetail(fightId);
+        return CombatAggHelper.GetAbilityIds(detail, sourceUnitId, targetUnitId, heals);
+    }
+
     public FightDetail? GetFightDetail(Guid fightId)
     {
         using var conn = OpenConnection(readOnly: true);
