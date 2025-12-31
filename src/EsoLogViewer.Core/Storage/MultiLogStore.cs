@@ -312,7 +312,13 @@ public sealed class MultiLogStore : IStore
         }
     }
 
-    public IReadOnlyList<FightSeriesPoint> GetSeries(Guid fightId)
+    public IReadOnlyList<CombatAggSummary> GetCombatAggs(Guid fightId, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false)
+    {
+        var detail = GetFightDetail(fightId);
+        return CombatAggHelper.ProjectAggregates(detail, sourceUnitId, targetUnitId, heals);
+    }
+
+    public IReadOnlyList<FightSeriesPoint> GetCombatSeries(Guid fightId, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false)
     {
         string? path;
         lock (_gate)
@@ -325,7 +331,8 @@ public sealed class MultiLogStore : IStore
 
         try
         {
-            return new SqliteLogStore(path, ensureSchema: false).GetSeries(fightId);
+            var store = new SqliteLogStore(path, ensureSchema: false);
+            return store.GetCombatSeries(fightId, sourceUnitId, targetUnitId, heals);
         }
         catch
         {
@@ -333,7 +340,17 @@ public sealed class MultiLogStore : IStore
         }
     }
 
+    public IReadOnlyList<FightSeriesPoint> GetSeries(Guid fightId)
+    {
+        return GetCombatSeries(fightId);
+    }
+
     public FightRangeStats? GetRange(Guid fightId, long fromRelMs, long toRelMs)
+    {
+        return GetCombatRange(fightId, fromRelMs, toRelMs);
+    }
+
+    public FightRangeStats? GetCombatRange(Guid fightId, long fromRelMs, long toRelMs, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false)
     {
         string? path;
         lock (_gate)
@@ -346,7 +363,8 @@ public sealed class MultiLogStore : IStore
 
         try
         {
-            return new SqliteLogStore(path, ensureSchema: false).GetRange(fightId, fromRelMs, toRelMs);
+            var store = new SqliteLogStore(path, ensureSchema: false);
+            return store.GetCombatRange(fightId, fromRelMs, toRelMs, sourceUnitId, targetUnitId, heals);
         }
         catch
         {
