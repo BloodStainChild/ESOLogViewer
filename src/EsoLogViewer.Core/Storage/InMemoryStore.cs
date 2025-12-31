@@ -16,7 +16,27 @@ public interface IStore
     FightSummary? GetFight(Guid fightId);
     FightDetail? GetFightDetail(Guid fightId);
     IReadOnlyList<FightSeriesPoint> GetSeries(Guid fightId);
+    IReadOnlyList<FightSeriesPoint> GetCombatSeries(
+        Guid fightId,
+        int? sourceUnitId = null,
+        int? targetUnitId = null,
+        bool heals = false,
+        IReadOnlyCollection<int>? abilityIds = null);
     FightRangeStats? GetRange(Guid fightId, long fromRelMs, long toRelMs);
+    FightRangeStats? GetCombatRange(
+        Guid fightId,
+        long fromRelMs,
+        long toRelMs,
+        int? sourceUnitId = null,
+        int? targetUnitId = null,
+        bool heals = false,
+        IReadOnlyCollection<int>? abilityIds = null);
+    IReadOnlyList<CombatAggSummary> GetCombatAggs(
+        Guid fightId,
+        int? sourceUnitId = null,
+        int? targetUnitId = null,
+        bool heals = false,
+        IReadOnlyCollection<int>? abilityIds = null);
 
     void UpsertSession(SessionDetail session);
     void UpsertFight(FightSummary fight, IReadOnlyList<FightSeriesPoint> series, FightDetail detail);
@@ -92,52 +112,45 @@ public sealed class InMemoryStore : IStore
         }
     }
 
-    public IReadOnlyList<FightSeriesPoint> GetSeries(Guid fightId)
+    public IReadOnlyList<CombatAggSummary> GetCombatAggs(Guid fightId, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false, IReadOnlyCollection<int>? abilityIds = null)
     {
+        FightDetail? detail;
         lock (_gate)
         {
-            return _series.TryGetValue(fightId, out var s) ? s : Array.Empty<FightSeriesPoint>();
+            _fightDetails.TryGetValue(fightId, out detail);
         }
+
+        return CombatAggHelper.ProjectAggregates(detail, sourceUnitId, targetUnitId, heals, abilityIds);
+    }
+
+    public IReadOnlyList<FightSeriesPoint> GetCombatSeries(Guid fightId, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false, IReadOnlyCollection<int>? abilityIds = null)
+    {
+        FightDetail? detail;
+        IReadOnlyList<FightSeriesPoint>? series;
+        lock (_gate)
+        {
+            _fightDetails.TryGetValue(fightId, out detail);
+            _series.TryGetValue(fightId, out var s);
+            series = s;
+        }
+
+        return CombatAggHelper.ProjectSeries(detail, series, sourceUnitId, targetUnitId, heals, abilityIds);
+    }
+
+    public IReadOnlyList<FightSeriesPoint> GetSeries(Guid fightId)
+    {
+        return GetCombatSeries(fightId);
     }
 
     public FightRangeStats? GetRange(Guid fightId, long fromRelMs, long toRelMs)
     {
-        if (toRelMs <= fromRelMs) return null;
+        return GetCombatRange(fightId, fromRelMs, toRelMs);
+    }
 
-        List<FightSeriesPoint> series;
-        lock (_gate)
-        {
-            if (!_series.TryGetValue(fightId, out series!))
-                return null;
-
-            // work on a copy
-            series = new List<FightSeriesPoint>(series);
-        }
-
-        int fromSec = (int)Math.Floor(fromRelMs / 1000.0);
-        int toSecExclusive = (int)Math.Ceiling(toRelMs / 1000.0);
-
-        long dmg = 0;
-        long heal = 0;
-
-        foreach (var p in series)
-        {
-            if (p.Second < fromSec || p.Second >= toSecExclusive) continue;
-            dmg += p.Damage;
-            heal += p.Heal;
-        }
-
-        double durSec = (toRelMs - fromRelMs) / 1000.0;
-        if (durSec <= 0) durSec = 0.001;
-
-        return new FightRangeStats(
-            FromRelMs: fromRelMs,
-            ToRelMs: toRelMs,
-            TotalDamage: dmg,
-            TotalHeal: heal,
-            Dps: dmg / durSec,
-            Hps: heal / durSec
-        );
+    public FightRangeStats? GetCombatRange(Guid fightId, long fromRelMs, long toRelMs, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false, IReadOnlyCollection<int>? abilityIds = null)
+    {
+        var filteredSeries = GetCombatSeries(fightId, sourceUnitId, targetUnitId, heals, abilityIds);
+        return CombatAggHelper.ComputeRange(filteredSeries, fromRelMs, toRelMs);
     }
 
     public void UpsertSession(SessionDetail session)

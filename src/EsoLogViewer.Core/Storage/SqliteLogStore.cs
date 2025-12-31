@@ -266,7 +266,13 @@ ORDER BY UnixStartTimeMs DESC;";
         return JsonSerializer.Deserialize<FightDetail>(json, JsonOpts);
     }
 
-    public IReadOnlyList<FightSeriesPoint> GetSeries(Guid fightId)
+    public IReadOnlyList<CombatAggSummary> GetCombatAggs(Guid fightId, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false, IReadOnlyCollection<int>? abilityIds = null)
+    {
+        var detail = GetFightDetail(fightId);
+        return CombatAggHelper.ProjectAggregates(detail, sourceUnitId, targetUnitId, heals, abilityIds);
+    }
+
+    public IReadOnlyList<FightSeriesPoint> GetCombatSeries(Guid fightId, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false, IReadOnlyCollection<int>? abilityIds = null)
     {
         using var conn = OpenConnection(readOnly: true);
         conn.Open();
@@ -279,39 +285,26 @@ ORDER BY UnixStartTimeMs DESC;";
         if (string.IsNullOrWhiteSpace(json)) return Array.Empty<FightSeriesPoint>();
 
         IReadOnlyList<FightSeriesPoint>? series = JsonSerializer.Deserialize<List<FightSeriesPoint>>(json, JsonOpts);
-        return series ?? Array.Empty<FightSeriesPoint>();
+        var detail = (sourceUnitId is null && targetUnitId is null && !heals && abilityIds is null) ? null : GetFightDetail(fightId);
+        return CombatAggHelper.ProjectSeries(detail, series ?? Array.Empty<FightSeriesPoint>(), sourceUnitId, targetUnitId, heals, abilityIds);
+    }
+
+    public IReadOnlyList<FightSeriesPoint> GetSeries(Guid fightId)
+    {
+        return GetCombatSeries(fightId);
     }
 
     public FightRangeStats? GetRange(Guid fightId, long fromRelMs, long toRelMs)
     {
+        return GetCombatRange(fightId, fromRelMs, toRelMs);
+    }
+
+    public FightRangeStats? GetCombatRange(Guid fightId, long fromRelMs, long toRelMs, int? sourceUnitId = null, int? targetUnitId = null, bool heals = false, IReadOnlyCollection<int>? abilityIds = null)
+    {
         if (toRelMs <= fromRelMs) return null;
-        var series = GetSeries(fightId);
-        if (series.Count == 0) return null;
 
-        int fromSec = (int)Math.Floor(fromRelMs / 1000.0);
-        int toSecExclusive = (int)Math.Ceiling(toRelMs / 1000.0);
-
-        long dmg = 0;
-        long heal = 0;
-
-        foreach (var p in series)
-        {
-            if (p.Second < fromSec || p.Second >= toSecExclusive) continue;
-            dmg += p.Damage;
-            heal += p.Heal;
-        }
-
-        double durSec = (toRelMs - fromRelMs) / 1000.0;
-        if (durSec <= 0) durSec = 0.001;
-
-        return new FightRangeStats(
-            FromRelMs: fromRelMs,
-            ToRelMs: toRelMs,
-            TotalDamage: dmg,
-            TotalHeal: heal,
-            Dps: dmg / durSec,
-            Hps: heal / durSec
-        );
+        var series = GetCombatSeries(fightId, sourceUnitId, targetUnitId, heals, abilityIds);
+        return CombatAggHelper.ComputeRange(series, fromRelMs, toRelMs);
     }
 
     // --------------------

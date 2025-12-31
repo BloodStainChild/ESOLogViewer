@@ -142,3 +142,23 @@ public sealed record FightRangeStats(
     double Dps,
     double Hps
 );
+
+/// <summary>
+/// Aggregated damage/heal numbers for a single ability after applying optional
+/// source/target filters. This mirrors the "Damage Done" / "Healing" tables on
+/// esolog.com where you can scope by player or enemy. Derived columns like DPS
+/// and percentage-of-total are computed on demand from the underlying
+/// aggregates.
+/// </summary>
+public sealed record CombatAggSummary(
+    int AbilityId,
+    long Total,
+    int Hits,
+    int Crits,
+    int ActiveSeconds,
+    long Overheal = 0,
+    double Dps = 0,
+    double Average = 0,
+    double CritPct = 0,
+    double Percent = 0
+);
