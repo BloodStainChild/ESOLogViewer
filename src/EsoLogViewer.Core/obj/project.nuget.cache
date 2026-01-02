@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HPJOzonST3I=",
+  "dgSpecHash": "MBHet3vKbss=",
   "success": true,
-  "projectFilePath": "D:\\EsoLogViewer\\EsoLogViewerLocal_NET8_v44\\src\\EsoLogViewer.Core\\EsoLogViewer.Core.csproj",
+  "projectFilePath": "D:\\EsoLogViewer\\ESOLogViewer\\src\\EsoLogViewer.Core\\EsoLogViewer.Core.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\HNGPC5.0\\.nuget\\packages\\bcnencoder.net\\2.2.1\\bcnencoder.net.2.2.1.nupkg.sha512",
     "C:\\Users\\HNGPC5.0\\.nuget\\packages\\bcnencoder.net.imagesharp\\1.1.2\\bcnencoder.net.imagesharp.1.1.2.nupkg.sha512",

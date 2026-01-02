@@ -68,3 +68,16 @@ D:\EsoLogViewer\EsoLogViewerLocal_NET8_v44\src\EsoLogViewer.Core\obj\Debug\net8.
 D:\EsoLogViewer\EsoLogViewerLocal_NET8_v44\src\EsoLogViewer.Core\obj\Debug\net8.0\refint\EsoLogViewer.Core.dll
 D:\EsoLogViewer\EsoLogViewerLocal_NET8_v44\src\EsoLogViewer.Core\obj\Debug\net8.0\EsoLogViewer.Core.pdb
 D:\EsoLogViewer\EsoLogViewerLocal_NET8_v44\src\EsoLogViewer.Core\obj\Debug\net8.0\ref\EsoLogViewer.Core.dll
+D:\EsoLogViewer\ESOLogViewer\src\EsoLogViewer.Core\obj\Debug\net8.0\EsoLogViewer.Core.csproj.AssemblyReference.cache
+D:\EsoLogViewer\ESOLogViewer\src\EsoLogViewer.Core\obj\Debug\net8.0\EsoLogViewer.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\EsoLogViewer\ESOLogViewer\src\EsoLogViewer.Core\obj\Debug\net8.0\EsoLogViewer.Core.AssemblyInfoInputs.cache
+D:\EsoLogViewer\ESOLogViewer\src\EsoLogViewer.Core\obj\Debug\net8.0\EsoLogViewer.Core.AssemblyInfo.cs
+D:\EsoLogViewer\ESOLogViewer\src\EsoLogViewer.Core\obj\Debug\net8.0\EsoLogViewer.Core.csproj.CoreCompileInputs.cache
+D:\EsoLogViewer\ESOLogViewer\src\EsoLogViewer.Core\obj\Debug\net8.0\EsoLogViewer.Core.sourcelink.json
+D:\EsoLogViewer\ESOLogViewer\src\EsoLogViewer.Core\bin\Debug\net8.0\EsoLogViewer.Core.deps.json
+D:\EsoLogViewer\ESOLogViewer\src\EsoLogViewer.Core\bin\Debug\net8.0\EsoLogViewer.Core.dll
+D:\EsoLogViewer\ESOLogViewer\src\EsoLogViewer.Core\bin\Debug\net8.0\EsoLogViewer.Core.pdb
+D:\EsoLogViewer\ESOLogViewer\src\EsoLogViewer.Core\obj\Debug\net8.0\EsoLogViewer.Core.dll
+D:\EsoLogViewer\ESOLogViewer\src\EsoLogViewer.Core\obj\Debug\net8.0\refint\EsoLogViewer.Core.dll
+D:\EsoLogViewer\ESOLogViewer\src\EsoLogViewer.Core\obj\Debug\net8.0\EsoLogViewer.Core.pdb
+D:\EsoLogViewer\ESOLogViewer\src\EsoLogViewer.Core\obj\Debug\net8.0\ref\EsoLogViewer.Core.dll

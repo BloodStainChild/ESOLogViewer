@@ -431,6 +431,8 @@ public sealed class LogImporter : ILogImporter
             var characterId = TryParseNullableULong(Get(f, 12)) ?? 0UL;
             var level = TryParseNullableInt(Get(f, 13)) ?? 0;
             var championPoints = TryParseNullableInt(Get(f, 14)) ?? 0;
+            // v45: some log formats include a master/owner unit id at this position (used for pets/companions).
+            var ownerUnitId = TryParseNullableInt(Get(f, 15));
             var disposition = Get(f, 16);
             var isGrouped = TryParseBool(Get(f, 17));
 
@@ -460,7 +462,8 @@ public sealed class LogImporter : ILogImporter
                 isGrouped,
                 IsActive: true,
                 FirstSeenRelMs: relMs,
-                LastSeenRelMs: relMs);
+                LastSeenRelMs: relMs,
+                OwnerUnitId: ownerUnitId);
 
             // Keep the current/latest view for parsing.
             _units[unitId] = u;
@@ -486,6 +489,8 @@ public sealed class LogImporter : ILogImporter
             var characterId = TryParseNullableULong(Get(f, 7)) ?? 0UL;
             var level = TryParseNullableInt(Get(f, 8)) ?? 0;
             var championPoints = TryParseNullableInt(Get(f, 9)) ?? 0;
+            // v45: some log formats include master/owner unit id here.
+            var ownerUnitId = TryParseNullableInt(Get(f, 10));
             var disposition = Get(f, 11);
             var isGrouped = TryParseBool(Get(f, 12));
 
@@ -509,7 +514,8 @@ public sealed class LogImporter : ILogImporter
                     isGrouped,
                     IsActive: true,
                     FirstSeenRelMs: relMs,
-                    LastSeenRelMs: relMs);
+                    LastSeenRelMs: relMs,
+                    OwnerUnitId: ownerUnitId);
 
                 _units[unitId] = created;
                 _unitHistory.Add(created);
@@ -529,7 +535,8 @@ public sealed class LogImporter : ILogImporter
                 Disposition = string.IsNullOrWhiteSpace(disposition) ? existing.Disposition : disposition,
                 IsGrouped = isGrouped,
                 IsActive = true,
-                LastSeenRelMs = relMs
+                LastSeenRelMs = relMs,
+                OwnerUnitId = ownerUnitId ?? existing.OwnerUnitId
             };
 
             _units[unitId] = updated;

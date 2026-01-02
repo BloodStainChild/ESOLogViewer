@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EsoLogViewer.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+58aa78573d356613c9305880bb231878677dff45")]
 [assembly: System.Reflection.AssemblyProductAttribute("EsoLogViewer.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EsoLogViewer.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

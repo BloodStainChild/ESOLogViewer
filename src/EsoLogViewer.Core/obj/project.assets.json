@@ -462,11 +462,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\EsoLogViewer\\EsoLogViewerLocal_NET8_v44\\src\\EsoLogViewer.Core\\EsoLogViewer.Core.csproj",
+      "projectUniqueName": "D:\\EsoLogViewer\\ESOLogViewer\\src\\EsoLogViewer.Core\\EsoLogViewer.Core.csproj",
       "projectName": "EsoLogViewer.Core",
-      "projectPath": "D:\\EsoLogViewer\\EsoLogViewerLocal_NET8_v44\\src\\EsoLogViewer.Core\\EsoLogViewer.Core.csproj",
+      "projectPath": "D:\\EsoLogViewer\\ESOLogViewer\\src\\EsoLogViewer.Core\\EsoLogViewer.Core.csproj",
       "packagesPath": "C:\\Users\\HNGPC5.0\\.nuget\\packages\\",
-      "outputPath": "D:\\EsoLogViewer\\EsoLogViewerLocal_NET8_v44\\src\\EsoLogViewer.Core\\obj\\",
+      "outputPath": "D:\\EsoLogViewer\\ESOLogViewer\\src\\EsoLogViewer.Core\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
